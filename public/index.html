@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#09090b" />
+
+    <title>ARTEX Research — Evidence-led autonomous pentesting</title>
+    <meta
+      name="description"
+      content="A research field note on how autonomous security agents move from authorized scope to tool use, captured evidence, and human review."
+    />
+    <link rel="canonical" href="https://artex.homes/" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="/assets/fonts/geist-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/styles.css" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ARTEX Research" />
+    <meta property="og:url" content="https://artex.homes/" />
+    <meta
+      property="og:title"
+      content="ARTEX Research — Evidence-led autonomous pentesting"
+    />
+    <meta
+      property="og:description"
+      content="Autonomy is not the result. Evidence is. Explore the operating loop behind inspectable AI security agents."
+    />
+    <meta
+      property="og:image"
+      content="https://artex.homes/assets/og-artex-research.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="ARTEX Research — Evidence-led autonomous pentesting"
+    />
+    <meta
+      name="twitter:description"
+      content="Scope, action, proof, review: a field note on autonomous security work."
+    />
+    <meta
+      name="twitter:image"
+      content="https://artex.homes/assets/og-artex-research.jpg"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://artex.homes/#organization",
+            "name": "ARTEX Research",
+            "url": "https://artex.homes/",
+            "logo": "https://artex.homes/assets/artex-mark-160.png",
+            "sameAs": ["https://artex.lol/"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://artex.homes/#website",
+            "url": "https://artex.homes/",
+            "name": "ARTEX Research",
+            "publisher": { "@id": "https://artex.homes/#organization" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://artex.homes/#article",
+            "headline": "Autonomous pentesting needs evidence, not just autonomy",
+            "description": "A field note on how autonomous security agents connect authorized scope, tool use, captured proof, and human review.",
+            "datePublished": "2026-11-22",
+            "dateModified": "2026-11-22",
+            "author": { "@id": "https://artex.homes/#organization" },
+            "publisher": { "@id": "https://artex.homes/#organization" },
+            "mainEntityOfPage": "https://artex.homes/",
+            "about": {
+              "@type": "SoftwareApplication",
+              "name": "ARTEX",
+              "applicationCategory": "SecurityApplication",
+              "url": "https://artex.lol/"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to research</a>
+
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="ARTEX Research home">
+          <img
+            src="/assets/artex-mark-160.png"
+            width="160"
+            height="180"
+            alt=""
+            aria-hidden="true"
+          />
+          <span>ARTEX</span>
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-research">Research</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Research sections">
+          <a href="#abstract">Abstract</a>
+          <a href="#method">Method</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#boundaries">Boundaries</a>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            class="icon-button theme-toggle"
+            type="button"
+            aria-label="Switch to light theme"
+            aria-pressed="false"
+            data-theme-toggle
+          >
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42" />
+              <path d="m17.66 17.66 1.41 1.41M2 12h2M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41M19.07 4.93l-1.41 1.41" />
+            </svg>
+          </button>
+
+          <a
+            class="button button-primary header-cta"
+            href="https://artex.lol/"
+          >
+            Open ARTEX
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+
+          <button
+            class="icon-button menu-button"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            data-menu-toggle
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <nav class="mobile-nav" id="mobile-menu" aria-label="Mobile navigation">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#boundaries">Boundaries</a>
+        <a class="mobile-cta" href="https://artex.lol/">Open ARTEX</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero shell" id="top" aria-labelledby="hero-title">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-copy reveal">
+          <div class="eyebrow">
+            <span>Research note 001</span>
+            <span class="eyebrow-rule"></span>
+            <span>22 Nov 2026</span>
+          </div>
+          <h1 id="hero-title">
+            Autonomous pentesting needs
+            <span class="hero-emphasis">evidence,</span> not just autonomy.
+          </h1>
+          <p class="hero-summary">
+            ARTEX Research examines the operating loop behind AI security
+            agents: define authorized scope, choose a useful action, preserve
+            proof, and stop for review when judgment matters.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary button-large" href="https://artex.lol/">
+              Open the ARTEX console
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a class="button button-secondary button-large" href="#abstract">
+              Read the research brief
+            </a>
+          </div>
+          <ul class="hero-signals" aria-label="Research principles">
+            <li><span></span>Authorized scope</li>
+            <li><span></span>Traceable proof</li>
+            <li><span></span>Human review</li>
+          </ul>
+        </div>
+
+        <div class="hero-console reveal reveal-delay" aria-label="Research console study">
+          <div class="console-window">
+            <div class="console-topbar">
+              <div class="window-controls" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="console-path">
+                <span class="console-status-dot"></span>
+                research_run_001
+              </div>
+              <span class="console-label">interface study</span>
+            </div>
+
+            <div class="console-heading">
+              <div>
+                <span class="console-kicker">Objective</span>
+                <h2>Prove an authorization boundary can be crossed.</h2>
+              </div>
+              <span class="status-pill status-active">in review</span>
+            </div>
+
+            <div class="evidence-rail">
+              <article class="evidence-step">
+                <div class="step-rail">
+                  <span class="step-index">01</span>
+                  <span class="step-line"></span>
+                </div>
+                <div class="step-body">
+                  <div class="step-head">
+                    <span class="step-type">Scope</span>
+                    <span class="step-state">accepted</span>
+                  </div>
+                  <p>Authorized target and testing window are attached.</p>
+                  <code>api.example.com · owner-approved</code>
+                </div>
+              </article>
+
+              <article class="evidence-step">
+                <div class="step-rail">
+                  <span class="step-index">02</span>
+                  <span class="step-line"></span>
+                </div>
+                <div class="step-body">
+                  <div class="step-head">
+                    <span class="step-type">Hypothesis</span>
+                    <span class="step-state">planned</span>
+                  </div>
+                  <p>A tenant identifier may bypass object ownership checks.</p>
+                  <code>risk: horizontal access · no destructive payload</code>
+                </div>
+              </article>
+
+              <article class="evidence-step">
+                <div class="step-rail">
+                  <span class="step-index">03</span>
+                  <span class="step-line"></span>
+                </div>
+                <div class="step-body">
+                  <div class="step-head">
+                    <span class="step-type">Proof</span>
+                    <span class="step-state step-state-proof">captured</span>
+                  </div>
+                  <p>Request, response, command, and affected asset stay linked.</p>
+                  <code>traffic / api-get-order · status 200 · tenant mismatch</code>
+                </div>
+              </article>
+
+              <article class="evidence-step">
+                <div class="step-rail">
+                  <span class="step-index">04</span>
+                </div>
+                <div class="step-body">
+                  <div class="step-head">
+                    <span class="step-type">Review</span>
+                    <span class="step-state step-state-human">human</span>
+                  </div>
+                  <p>Impact is validated before the finding becomes a report.</p>
+                  <code>approval required · evidence version pinned</code>
+                </div>
+              </article>
+            </div>
+
+            <div class="console-footer">
+              <span>4 evidence objects</span>
+              <span>0 unsupported claims</span>
+              <span>review / pending</span>
+            </div>
+          </div>
+          <p class="console-caption">
+            Static interface study. The production ARTEX workspace lives at
+            artex.lol.
+          </p>
+        </div>
+      </section>
+
+      <section class="section shell" id="abstract" aria-labelledby="abstract-title">
+        <aside class="section-index reveal">
+          <span>01</span>
+          <p>Abstract</p>
+        </aside>
+        <div class="section-content">
+          <div class="section-heading reveal">
+            <p class="section-eyebrow">The question</p>
+            <h2 id="abstract-title">
+              What makes an autonomous security result trustworthy?
+            </h2>
+          </div>
+          <div class="abstract-grid">
+            <div class="abstract-lead reveal">
+              <p>
+                A tool call is not a finding. A fluent explanation is not
+                evidence. The useful unit is a bounded run: a target, an
+                approved scope, a sequence of decisions, the traffic or command
+                output behind each claim, and a human who can review the result.
+              </p>
+            </div>
+            <div class="abstract-note reveal">
+              <p>
+                ARTEX is organized around that unit. Its public console keeps
+                tasks, assets, exploration, traffic, findings, commands, and
+                approvals connected so an operator can inspect how a conclusion
+                was reached.
+              </p>
+              <p>
+                This research page is independent from the application itself.
+                It describes the model of work; the console is the place where
+                that work runs.
+              </p>
+            </div>
+          </div>
+          <div class="thesis-strip reveal" aria-label="Research thesis">
+            <span>Scope defines permission.</span>
+            <span>Actions produce records.</span>
+            <span>Evidence supports claims.</span>
+            <span>Review assigns consequence.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell" id="method" aria-labelledby="method-title">
+        <aside class="section-index reveal">
+          <span>02</span>
+          <p>Method</p>
+        </aside>
+        <div class="section-content">
+          <div class="section-heading split-heading reveal">
+            <div>
+              <p class="section-eyebrow">Operating loop</p>
+              <h2 id="method-title">Move from intent to inspectable action.</h2>
+            </div>
+            <p>
+              The loop stays deliberately narrow. Each step creates a record
+              that the next step can use and a reviewer can challenge.
+            </p>
+          </div>
+
+          <ol class="method-list">
+            <li class="method-step reveal">
+              <span class="method-number">01</span>
+              <div class="method-title">
+                <span class="method-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M4 7V4h3M17 4h3v3M20 17v3h-3M7 20H4v-3" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </span>
+                <h3>Frame the scope</h3>
+              </div>
+              <p>
+                Record the system that may be tested, the rules of engagement,
+                the available credentials, and the actions that require
+                approval.
+              </p>
+              <span class="method-output">output / authorization record</span>
+            </li>
+
+            <li class="method-step reveal">
+              <span class="method-number">02</span>
+              <div class="method-title">
+                <span class="method-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M5 3v4M3 5h4M17 19v2M16 20h2" />
+                    <path d="m7 21 14-14-2-2L5 19l-2 4 4-2Z" />
+                  </svg>
+                </span>
+                <h3>Plan the next test</h3>
+              </div>
+              <p>
+                Turn observations into a concrete hypothesis. Choose the least
+                invasive action that can confirm or reject it.
+              </p>
+              <span class="method-output">output / decision + rationale</span>
+            </li>
+
+            <li class="method-step reveal">
+              <span class="method-number">03</span>
+              <div class="method-title">
+                <span class="method-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m4 17 6-6-6-6M12 19h8" />
+                  </svg>
+                </span>
+                <h3>Execute and record</h3>
+              </div>
+              <p>
+                Invoke the tool, capture the request and response, preserve
+                timestamps, and connect the artifact to the asset under test.
+              </p>
+              <span class="method-output">output / command + traffic + asset</span>
+            </li>
+
+            <li class="method-step reveal">
+              <span class="method-number">04</span>
+              <div class="method-title">
+                <span class="method-icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </span>
+                <h3>Review the consequence</h3>
+              </div>
+              <p>
+                Separate technical reproduction from business impact. A person
+                decides whether the evidence is sufficient and what happens
+                next.
+              </p>
+              <span class="method-output">output / reviewed finding</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section
+        class="section shell"
+        id="evidence"
+        aria-labelledby="evidence-title"
+      >
+        <aside class="section-index reveal">
+          <span>03</span>
+          <p>Evidence</p>
+        </aside>
+        <div class="section-content">
+          <div class="section-heading split-heading reveal">
+            <div>
+              <p class="section-eyebrow">Proof standard</p>
+              <h2 id="evidence-title">A finding must survive inspection.</h2>
+            </div>
+            <p>
+              The report begins with the artifact that supports it. Every claim
+              should point back to the observable behavior that made it useful.
+            </p>
+          </div>
+
+          <div class="evidence-comparison reveal">
+            <article class="proof-panel proof-weak">
+              <div class="proof-head">
+                <span class="proof-label">Claim only</span>
+                <span class="proof-mark">?</span>
+              </div>
+              <blockquote>
+                “The endpoint appears to allow cross-tenant access.”
+              </blockquote>
+              <ul>
+                <li>No request or response attached</li>
+                <li>No affected identity or asset</li>
+                <li>No reproduction path</li>
+              </ul>
+            </article>
+
+            <article class="proof-panel proof-strong">
+              <div class="proof-head">
+                <span class="proof-label">Inspectable proof</span>
+                <span class="proof-mark">✓</span>
+              </div>
+              <blockquote>
+                Tenant A reads tenant B’s order after changing one object
+                identifier.
+              </blockquote>
+              <ul>
+                <li>Request and response preserved</li>
+                <li>Identity, asset, and record linked</li>
+                <li>Impact reviewed and scoped</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="question-grid">
+            <article class="question-card reveal">
+              <span class="question-label">Reproduction</span>
+              <h3>Can another reviewer reach the same observation?</h3>
+              <p>
+                Keep the exact command, request, response, and dependency
+                context available.
+              </p>
+            </article>
+            <article class="question-card reveal">
+              <span class="question-label">Attribution</span>
+              <h3>Does the evidence belong to the asset in the finding?</h3>
+              <p>
+                A matching domain or timestamp is a filter. Ownership and scope
+                determine whether the artifact is relevant.
+              </p>
+            </article>
+            <article class="question-card reveal">
+              <span class="question-label">Impact</span>
+              <h3>What can an authorized actor actually do with it?</h3>
+              <p>
+                Technical behavior becomes a security finding only after its
+                consequence is stated and reviewed.
+              </p>
+            </article>
+            <article class="question-card reveal">
+              <span class="question-label">Freshness</span>
+              <h3>Does the proof still describe the current system?</h3>
+              <p>
+                Retests should refer to the original finding and the new
+                artifact, not merely repeat the original narrative.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section shell"
+        id="boundaries"
+        aria-labelledby="boundaries-title"
+      >
+        <aside class="section-index reveal">
+          <span>04</span>
+          <p>Boundaries</p>
+        </aside>
+        <div class="section-content">
+          <div class="boundary-grid">
+            <div class="section-heading reveal">
+              <p class="section-eyebrow">Operating constraints</p>
+              <h2 id="boundaries-title">
+                Autonomy expands only inside explicit limits.
+              </h2>
+              <p class="boundary-summary">
+                Permission is not inferred from technical reach. Scope,
+                approval rules, and the consequences of an action remain
+                explicit parts of the run.
+              </p>
+            </div>
+
+            <div class="boundary-list reveal">
+              <article>
+                <span class="boundary-code">AUTH</span>
+                <div>
+                  <h3>Use only systems you own or are authorized to test.</h3>
+                  <p>
+                    Written permission and a defined testing window come before
+                    the first request.
+                  </p>
+                </div>
+              </article>
+              <article>
+                <span class="boundary-code">STOP</span>
+                <div>
+                  <h3>Escalate sensitive actions to a human operator.</h3>
+                  <p>
+                    Destructive, high-impact, or ambiguous actions require a
+                    review point rather than an optimistic default.
+                  </p>
+                </div>
+              </article>
+              <article>
+                <span class="boundary-code">SCOPE</span>
+                <div>
+                  <h3>Keep targets, tools, and evidence in the same record.</h3>
+                  <p>
+                    Asset inventories and blocklists are controls. A guardrail
+                    matters only when the workflow actually checks it.
+                  </p>
+                </div>
+              </article>
+              <article>
+                <span class="boundary-code">REVIEW</span>
+                <div>
+                  <h3>Treat generated confidence as a claim, not proof.</h3>
+                  <p>
+                    Humans decide impact, remediation priority, and whether a
+                    result is ready for a customer report.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section shell" aria-labelledby="cta-title">
+        <div class="cta-grid" aria-hidden="true"></div>
+        <div class="cta-mark" aria-hidden="true">
+          <img
+            src="/assets/artex-mark-160.png"
+            width="160"
+            height="180"
+            alt=""
+            loading="lazy"
+          />
+        </div>
+        <div class="cta-copy reveal">
+          <p class="section-eyebrow">Continue into the console</p>
+          <h2 id="cta-title">
+            Read the evidence. Then run the workflow.
+          </h2>
+          <p>
+            ARTEX combines a planner, parallel security agents, traffic capture,
+            assets, findings, and human approval in one inspectable workspace.
+          </p>
+        </div>
+        <a class="button button-primary button-large" href="https://artex.lol/">
+          Open ARTEX
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img
+            src="/assets/artex-mark-160.png"
+            width="160"
+            height="180"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <div>
+            <span>ARTEX Research</span>
+            <p>Notes on evidence-led autonomous security work.</p>
+          </div>
+        </div>
+        <div class="footer-meta">
+          <span>Field note 001</span>
+          <span>English</span>
+          <span>© 2026 ARTEX</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/script.js" defer></script>
+  </body>
+</html>
