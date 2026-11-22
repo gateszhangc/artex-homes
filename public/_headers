@@ -5,6 +5,7 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Cache-Control: public, max-age=300
+  ! x-cf-pages-analytics
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
