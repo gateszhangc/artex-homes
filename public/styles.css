@@ -1231,6 +1231,42 @@ html[data-theme="light"] .icon-sun {
   text-transform: uppercase;
 }
 
+.error-shell {
+  min-height: 100vh;
+  padding-block: 48px;
+  display: grid;
+  place-items: center;
+}
+
+.error-card {
+  max-width: 620px;
+  text-align: center;
+}
+
+.error-mark {
+  width: 64px;
+  height: auto;
+  margin: 0 auto 28px;
+}
+
+.error-title {
+  margin-top: 16px;
+  font-size: clamp(42px, 10vw, 72px);
+  font-weight: 520;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.error-copy {
+  margin-top: 24px;
+  color: var(--text-soft);
+  font-size: 17px;
+}
+
+.error-actions {
+  justify-content: center;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(14px);
