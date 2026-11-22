@@ -1,22 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "artex-homes",
-  "main": "src/worker.js",
+  "pages_build_output_dir": "./public",
   "compatibility_date": "2026-11-22",
-  "assets": {
-    "directory": "./public",
-    "binding": "ASSETS",
-    "run_worker_first": true,
-    "not_found_handling": "404-page"
-  },
-  "routes": [
-    {
-      "pattern": "artex.homes",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.artex.homes",
-      "custom_domain": true
-    }
-  ]
+  "compatibility_flags": ["nodejs_compat"]
 }

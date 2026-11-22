@@ -12,17 +12,15 @@ ARTEX console at `https://artex.lol/`.
 python3 -m http.server 3108 --bind 0.0.0.0 --directory public
 ```
 
-## Worker preview
-
-```bash
-npx wrangler dev
-```
-
 ## Deploy
 
 ```bash
-npx wrangler deploy
+npx wrangler pages deploy public \
+  --project-name artex-homes \
+  --branch main \
+  --commit-dirty=true
 ```
 
-The Worker serves static assets from `public/`, redirects `www.artex.homes` to
-the apex host with a `308`, and adds baseline security headers.
+Cloudflare Pages serves the static files in `public/`. The zone-level
+`http_request_dynamic_redirect` rule sends `www.artex.homes` to the apex with a
+`308`, and `public/_headers` applies security and cache headers.
