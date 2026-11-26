@@ -56,6 +56,22 @@
     if (event.key === "Escape") closeMenu();
   });
 
+  document
+    .querySelectorAll('a[href^="https://artex.lol"]')
+    .forEach((link) => {
+      link.addEventListener("click", () => {
+        if (typeof window.gtag !== "function") return;
+        const section = link.closest("section");
+        window.gtag("event", "console_open", {
+          link_text: (link.textContent || "").trim().replace(/\s+/g, " "),
+          link_url: link.href,
+          placement:
+            section?.id || (link.closest(".site-header") ? "header" : "content"),
+          transport_type: "beacon",
+        });
+      });
+    });
+
   const revealItems = document.querySelectorAll(".reveal");
   if (reduceMotion || !("IntersectionObserver" in window)) {
     revealItems.forEach((item) => item.classList.add("is-visible"));

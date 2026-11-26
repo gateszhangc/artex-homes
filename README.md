@@ -6,6 +6,13 @@ Independent English research landing page for ARTEX, published at
 The page itself stays on `artex.homes`. Primary CTA buttons open the production
 ARTEX console at `https://artex.lol/`.
 
+## Analytics
+
+GA4 browser collection uses `G-53Y83S6DR8` from the `ARTEX` property. Outbound
+CTA clicks are sent as the `console_open` event. The Content Security Policy in
+`public/_headers` allows only the GA4 and Google Tag Manager endpoints required
+for collection.
+
 ## Local preview
 
 ```bash
